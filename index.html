@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOM 破冰之旅 - 同頻人格測驗</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #5a7684;        
+      --primary-soft: #8ba2ad;   
+      --accent: #d4a373;         
+      --bg-start: #c9d6de;       
+      --bg-end: #e2e5ec;         
+      --card-bg: rgba(255, 255, 255, 0.82);
+    }
+    body { font-family: 'Noto Sans TC', sans-serif; background: linear-gradient(135deg, var(--bg-start), var(--bg-end)); margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+    .bg-glow { position: fixed; border-radius: 50%; filter: blur(100px); z-index: -1; opacity: 0.6; }
+    .glow-1 { width: 400px; height: 400px; background: #9bb1bd; top: -10%; left: -10%; }
+    .glow-2 { width: 500px; height: 500px; background: #b0bec5; bottom: -10%; right: -10%; }
+    .container { width: 100%; max-width: 450px; padding: 15px; z-index: 10; text-align: center; }
+    .progress-wrapper { width: 100%; height: 5px; background: rgba(255, 255, 255, 0.3); border-radius: 10px; margin-bottom: 20px; overflow: hidden; display: none; }
+    .progress-bar { height: 100%; background: var(--accent); width: 0%; transition: width 0.4s ease; }
+    .card { background: var(--card-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 35px 30px; border-radius: 32px; box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08); min-height: 520px; border: 1px solid rgba(255, 255, 255, 0.4); position: relative; display: flex; flex-direction: column; justify-content: center; text-align: left; }
+    h1 { text-align: center; color: var(--primary); margin: 0; font-size: 1.6rem; letter-spacing: 4px; font-weight: 700; }
+    .sub-title { text-align: center; color: var(--primary-soft); font-size: 0.85rem; margin-bottom: 25px; letter-spacing: 1px; }
+    label { display: block; margin-top: 12px; font-weight: 500; color: var(--primary); font-size: 0.85rem; }
+    input, select { width: 100%; padding: 12px; margin-top: 6px; border: 1px solid rgba(0,0,0,0.08); border-radius: 12px; box-sizing: border-box; font-size: 16px; background: rgba(255,255,255,0.6); }
+    .btn-group { display: flex; gap: 12px; margin-top: 25px; }
+    button { flex: 1; padding: 16px; border: none; border-radius: 16px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: 0.3s; }
+    .primary-btn { background: var(--primary); color: white; box-shadow: 0 4px 15px rgba(90, 118, 132, 0.2); }
+    .secondary-btn { background: #bccad6; color: white; }
+    button:hover { opacity: 0.9; transform: translateY(-2px); }
+    .step { display: none; width: 100%; animation: slideUp 0.6s ease-out; }
+    .step.active { display: block; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(90, 118, 132, 0.3); } 70% { box-shadow: 0 0 0 10px rgba(90, 118, 132, 0); } 100% { box-shadow: 0 0 0 0 rgba(90, 118, 132, 0); } }
+    .confirm-list { background: rgba(255, 255, 255, 0.5); padding: 22px; border-radius: 20px; line-height: 2.2; margin: 20px 0; font-size: 0.95rem; }
+    .confirm-list b { color: var(--primary); margin-right: 12px; }
+    .q-title { font-size: 1.25rem; color: var(--primary); margin-bottom: 25px; font-weight: 700; line-height: 1.6; }
+    .opt { display: block; background: white; padding: 18px 20px; margin-bottom: 12px; border-radius: 18px; cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
+    .opt:hover { background: #f8fafb; border-color: var(--primary-soft); }
+    .opt.selected { background: var(--primary); color: white; }
+    input[type="radio"] { display: none; }
+    .code-box { font-family: monospace; font-size: 1.7rem; border: 2px dashed var(--primary-soft); padding: 25px; margin: 20px 0; color: var(--primary); background: rgba(255,255,255,0.4); border-radius: 16px; font-weight: bold; text-align: center; animation: pulse 2s infinite ease-in-out; letter-spacing: 2px; }
+    #loader { display: none; text-align: center; color: var(--primary-soft); margin-top: 60px; font-style: italic; }
+    footer { margin-top: 25px; color: var(--primary-soft); font-size: 0.7rem; letter-spacing: 1px; opacity: 0.7; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <div class="bg-glow glow-1"></div><div class="bg-glow glow-2"></div>
+  <div class="container">
+    <div class="progress-wrapper" id="p-box"><div class="progress-bar" id="p-bar"></div></div>
+    
+    <div class="card">
+      <div class="step active" id="step0">
+        <h1>破冰之旅</h1>
+        <div class="sub-title">尋頻相遇，破冰成友</div>
+        <label>中文名字</label><input type="text" id="v_name" placeholder="您的姓名">
+        <label>英文名字</label><input type="text" id="v_eng" placeholder="Jamie">
+        <label>電子郵件</label><input type="email" id="v_mail" placeholder="example@mail.com">
+        <label>生日</label><input type="date" id="v_birth">
+        <label>性別</label>
+        <select id="v_sex"><option value="男">男</option><option value="女">女</option></select>
+        <label>Line ID</label><input type="text" id="v_line" placeholder="您的 Line ID">
+        <button class="primary-btn" style="width:100%; margin-top:30px;" onclick="goQuiz()">啟動頻率掃描</button>
+      </div>
+
+      <div class="step" id="confirm-step">
+        <h2 style="color:var(--primary); text-align:center;">❄️ 確認信號 ❄️</h2>
+        <div class="confirm-list" id="confirm-detail"></div>
+        <div class="btn-group">
+          <button class="secondary-btn" onclick="backToEdit()">返回修改</button>
+          <button class="primary-btn" onclick="startQuiz()">前往破冰 ❄️</button>
+        </div>
+      </div>
+
+      <div id="quiz-container"></div>
+
+      <div class="step" id="result-view" style="text-align:center;">
+        <h2 style="color:var(--primary); letter-spacing: 3px;">❄️ 訊號偵測完成 ❄️</h2>
+        <div class="code-box" id="v_code"></div>
+        
+        <div style="margin: 25px auto; max-width: 90%; border-left: 2.5px solid var(--accent); padding-left: 18px; text-align: left;">
+            <p style="font-size: 0.9rem; color: var(--primary); line-height: 1.8; margin: 0;">
+                「在新竹這座科技之城，連結不該只是訊號與資料，更可以是頻率與情感交換。為新竹量身打造這 TOM 破冰之旅，幫助你釋放自我頻率，尋找與你共振的人。」
+            </p>
+        </div>
+
+        <div style="margin-top: 35px; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 25px;">
+            <p style="font-size: 1.05rem; color: var(--primary); font-weight: 500; margin-bottom: 12px; line-height: 1.4;">
+                願這 TOM（趟）旅程，<br>能溫暖你在未來的每個日子。
+            </p>
+            <p style="font-size: 0.9rem; color: #888; line-height: 1.8;">
+                稍晚請留意那道共鳴，<br>我們在下一章正式相遇。
+            </p>
+        </div>
+      </div>
+      <div id="loader">正在同步頻率數據...</div>
+    </div>
+
+    <footer>
+        © 2026 TOM Project. All rights reserved.<br>
+        暖意開始，共鳴隨之。
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    (function(){ emailjs.init("noTwUO_vvghFf6QuM"); })();
+
+    const qs = [
+      { t: "1. 忙碌一整天後，你如何恢復能量？", o: ["找朋友聚餐聊天", "獨自安靜休息", "去運動發洩", "沉浸在興趣愛好中"], s: [{S:2},{S:-2},{I:2},{I:-1}] },
+      { t: "2. 面對未知的挑戰，你的第一反應是？", o: ["立即規劃步驟", "先觀察他人做法", "順應感覺走", "收集大量資訊分析"], s: [{L:2},{S:-1},{L:-2},{V:1}] },
+      { t: "3. 你比較喜歡哪種工作氣氛？", o: ["團隊合作，隨時溝通", "獨立作業，不受打擾", "節奏明快，有競爭力", "和諧穩定，按步就班"], s: [{S:2},{S:-2},{V:2},{L:2}] },
+      { t: "4. 旅行時，如果導航失靈了，你會？", o: ["直接問路人", "自己看地圖研究", "覺得是冒險的開始", "感到焦慮並想辦法修好"], s: [{S:2},{I:-1},{L:-2},{L:2}] },
+      { t: "5. 你如何定義「成功」？", o: ["達成設定的目標", "內心的平靜與自由", "身邊人的認可", "不斷挑戰自我極限"], s: [{V:2},{L:-2},{S:1},{V:1}] },
+      { t: "6. 在社群媒體上，你通常是？", o: ["積極發文分享", "安靜的觀察者", "偶爾互動點讚", "工作需要才使用"], s: [{S:2},{S:-2},{S:0},{V:1}] },
+      { t: "7. 你的桌面通常呈現什麼狀態？", o: ["井然有序，一塵不染", "亂中有序", "完全隨性", "充滿個人風格"], s: [{L:2},{L:0},{L:-2},{I:1}] },
+      { t: "8. 談話中，你更傾向於？", o: ["表達見解", "傾聽回饋", "帶動氣氛", "觀察反應"], s: [{V:1},{V:-1},{S:2},{S:-2}] },
+      { t: "9. 決定買貴重物品時，你考量？", o: ["功能邏輯", "品牌地位", "當下感覺", "長期穩定"], s: [{V:2},{S:1},{L:-2},{L:2}] },
+      { t: "10. 如果生命重來，你希望？", o: ["體驗更多不同人生", "修正過去遺憾", "維持現狀", "掌握更多影響"], s: [{I:2},{V:-1},{L:2},{V:2}] }
+    ];
+
+    let finalScores = { S:0, L:0, V:0, I:0 };
+
+    function goQuiz() {
+      const name = document.getElementById('v_name').value;
+      const mail = document.getElementById('v_mail').value;
+      const birthValue = document.getElementById('v_birth').value;
+      const line = document.getElementById('v_line').value;
+      if (!name || !mail || !birthValue || !line) { alert("請完整填寫資訊以開啟掃描。"); return; }
+      const birthday = new Date(birthValue);
+      const today = new Date();
+      let age = today.getFullYear() - birthday.getFullYear();
+      const m = today.getMonth() - birthday.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthday.getDate())) age--;
+      if (age < 18) { alert("【系統提示】本測驗僅限年滿 18 歲參與。"); return; }
+      showConfirm();
+    }
+
+    function showConfirm() {
+      document.getElementById('confirm-detail').innerHTML = `
+        <b>姓名：</b>${document.getElementById('v_name').value} (${document.getElementById('v_eng').value})<br>
+        <b>Email：</b>${document.getElementById('v_mail').value}<br>
+        <b>生日：</b>${document.getElementById('v_birth').value}<br>
+        <b>Line ID：</b>${document.getElementById('v_line').value}
+      `;
+      document.getElementById('step0').classList.remove('active');
+      document.getElementById('confirm-step').classList.add('active');
+    }
+
+    function backToEdit() {
+      document.getElementById('confirm-step').classList.remove('active');
+      document.getElementById('step0').classList.add('active');
+    }
+
+    function startQuiz() {
+      document.getElementById('confirm-step').classList.remove('active');
+      document.getElementById('p-box').style.display = 'block';
+      buildQuiz();
+      showStep(1);
+    }
+
+    function buildQuiz() {
+      const c = document.getElementById('quiz-container'); c.innerHTML = "";
+      qs.forEach((q, i) => {
+        let d = document.createElement('div'); d.className = 'step'; d.id = `step${i+1}`;
+        d.innerHTML = `<div class="q-title">${q.t}</div>`;
+        q.o.forEach((o, j) => {
+          let l = document.createElement('label'); l.className = 'opt';
+          l.innerHTML = `<input type="radio" name="q${i}" value="${j}" onclick="next(this, ${i+1}, ${j})"> ${o}`;
+          d.appendChild(l);
+        });
+        c.appendChild(d);
+      });
+    }
+
+    function showStep(s) {
+      document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+      const target = document.getElementById(`step${s}`);
+      if(target) target.classList.add('active');
+      document.getElementById('p-bar').style.width = `${(s/10)*100}%`;
+    }
+
+    function next(el, sIdx, oIdx) {
+      el.closest('.step').querySelectorAll('.opt').forEach(l => l.classList.remove('selected'));
+      el.parentElement.classList.add('selected');
+      let o = qs[sIdx-1].s[oIdx];
+      for(let k in o) finalScores[k] += o[k];
+      if(sIdx < 10) setTimeout(() => showStep(sIdx+1), 400);
+      else submit();
+    }
+
+    function submit() {
+      document.getElementById('step10').classList.remove('active');
+      document.getElementById('p-box').style.display = 'none';
+      document.getElementById('loader').style.display = 'block';
+
+      let typeStr = (finalScores.S > 0) ? (finalScores.L > 0 ? "穩定社交" : "自由探索") : (finalScores.L > 0 ? "安靜守護" : "獨立思考");
+      let codeStr = `ICB-${Math.abs(finalScores.S)}${finalScores.L>=0?'P':'N'}-${Math.random().toString(36).substr(2,4).toUpperCase()}`;
+
+      let p = {
+        name: document.getElementById('v_name').value, eng: document.getElementById('v_eng').value,
+        mail: document.getElementById('v_mail').value, birth: document.getElementById('v_birth').value,
+        sex: document.getElementById('v_sex').value, line: document.getElementById('v_line').value,
+        type: typeStr, code: codeStr, sc: `S:${finalScores.S} L:${finalScores.L} V:${finalScores.V} I:${finalScores.I}`,
+        ts: new Date().toLocaleString('zh-TW')
+      };
+
+      emailjs.send("service_oyhv1ot", "personality_result", p).then(() => {
+        document.getElementById('loader').style.display = 'none';
+        document.getElementById('result-view').classList.add('active');
+        document.getElementById('v_code').innerText = codeStr;
+      });
+    }
+  </script>
+</body>
+</html>
