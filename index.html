@@ -21,11 +21,11 @@
     .container { width: 100%; max-width: 450px; padding: 15px; z-index: 10; text-align: center; }
     .progress-wrapper { width: 100%; height: 5px; background: rgba(255, 255, 255, 0.3); border-radius: 10px; margin-bottom: 20px; overflow: hidden; display: none; }
     .progress-bar { height: 100%; background: var(--accent); width: 0%; transition: width 0.4s ease; }
-    .card { background: var(--card-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 35px 30px; border-radius: 32px; box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08); min-height: 520px; border: 1px solid rgba(255, 255, 255, 0.4); position: relative; display: flex; flex-direction: column; justify-content: center; text-align: left; }
+    .card { background: var(--card-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 30px 25px; border-radius: 32px; box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08); min-height: 520px; border: 1px solid rgba(255, 255, 255, 0.4); position: relative; display: flex; flex-direction: column; justify-content: center; text-align: left; }
     h1 { text-align: center; color: var(--primary); margin: 0; font-size: 1.6rem; letter-spacing: 4px; font-weight: 700; }
-    .sub-title { text-align: center; color: var(--primary-soft); font-size: 0.85rem; margin-bottom: 25px; letter-spacing: 1px; }
-    label { display: block; margin-top: 12px; font-weight: 500; color: var(--primary); font-size: 0.85rem; }
-    input, select { width: 100%; padding: 12px; margin-top: 6px; border: 1px solid rgba(0,0,0,0.08); border-radius: 12px; box-sizing: border-box; font-size: 16px; background: rgba(255,255,255,0.6); }
+    .sub-title { text-align: center; color: var(--primary-soft); font-size: 0.85rem; margin-bottom: 20px; letter-spacing: 1px; }
+    label { display: block; margin-top: 10px; font-weight: 500; color: var(--primary); font-size: 0.85rem; }
+    input, select { width: 100%; padding: 11px; margin-top: 5px; border: 1px solid rgba(0,0,0,0.08); border-radius: 12px; box-sizing: border-box; font-size: 15px; background: rgba(255,255,255,0.6); }
     .btn-group { display: flex; gap: 12px; margin-top: 25px; }
     button { flex: 1; padding: 16px; border: none; border-radius: 16px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: 0.3s; }
     .primary-btn { background: var(--primary); color: white; box-shadow: 0 4px 15px rgba(90, 118, 132, 0.2); }
@@ -34,17 +34,17 @@
     .step { display: none; width: 100%; animation: slideUp 0.6s ease-out; }
     .step.active { display: block; }
     @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    .confirm-list { background: rgba(255, 255, 255, 0.5); padding: 22px; border-radius: 20px; line-height: 2.2; margin: 20px 0; font-size: 0.95rem; }
-    .confirm-list b { color: var(--primary); margin-right: 12px; }
-    .q-title { font-size: 1.25rem; color: var(--primary); margin-bottom: 25px; font-weight: 700; line-height: 1.6; }
-    .opt { display: block; background: white; padding: 18px 20px; margin-bottom: 12px; border-radius: 18px; cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
+    .confirm-list { background: rgba(255, 255, 255, 0.5); padding: 20px; border-radius: 20px; line-height: 2.1; margin: 15px 0; font-size: 0.9rem; }
+    .confirm-list b { color: var(--primary); margin-right: 10px; }
+    .q-title { font-size: 1.2rem; color: var(--primary); margin-bottom: 20px; font-weight: 700; line-height: 1.6; }
+    .opt { display: block; background: white; padding: 16px 18px; margin-bottom: 10px; border-radius: 18px; cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
     .opt:hover { background: #f8fafb; border-color: var(--primary-soft); }
     .opt.selected { background: var(--primary); color: white; }
     input[type="radio"] { display: none; }
-    .code-box { font-family: monospace; font-size: 1.7rem; border: 2px dashed var(--primary-soft); padding: 25px; margin: 20px 0; color: var(--primary); background: rgba(255,255,255,0.4); border-radius: 16px; font-weight: bold; text-align: center; letter-spacing: 2px; }
+    .code-box { font-family: monospace; font-size: 1.7rem; border: 2px dashed var(--primary-soft); padding: 20px; margin: 15px 0; color: var(--primary); background: rgba(255,255,255,0.4); border-radius: 16px; font-weight: bold; text-align: center; letter-spacing: 2px; }
     #loader { display: none; text-align: center; color: var(--primary-soft); margin-top: 60px; font-style: italic; }
     footer { margin-top: 25px; color: var(--primary-soft); font-size: 0.7rem; letter-spacing: 1px; opacity: 0.7; line-height: 1.5; }
-    #v_route_other_box { display: none; animation: slideUp 0.4s ease-out; }
+    #v_route_other_box { display: none; margin-top: 8px; animation: slideUp 0.4s ease-out; }
   </style>
 </head>
 <body>
@@ -56,25 +56,19 @@
       <div class="step active" id="step0">
         <h1>破冰之旅</h1>
         <div class="sub-title">尋頻相遇，破冰成友</div>
-        
-        <label>中文名字</label>
-        <input type="text" id="v_name" placeholder="您的姓名">
-        
-        <label>英文名字</label>
-        <input type="text" id="v_eng" placeholder="Jamie">
-        
-        <label>電子郵件</label>
-        <input type="email" id="v_mail" placeholder="用於接收邀請函">
-        
-        <label>性別</label>
-        <select id="v_sex">
-          <option value="男">男</option>
-          <option value="女">女</option>
-        </select>
-        
-        <label>Line ID</label>
-        <input type="text" id="v_line" placeholder="您的 Line ID">
-        
+        <label>中文名字 / 英文名字</label>
+        <div style="display:flex; gap:8px;">
+          <input type="text" id="v_name" placeholder="姓名" style="flex:1;">
+          <input type="text" id="v_eng" placeholder="Jamie" style="flex:1;">
+        </div>
+        <label>生日 / 性別</label>
+        <div style="display:flex; gap:8px;">
+          <input type="date" id="v_birth" style="flex:1.5;">
+          <select id="v_sex" style="flex:1;"><option value="男">男</option><option value="女">女</option></select>
+        </div>
+        <label>電子郵件 / Line ID</label>
+        <input type="email" id="v_mail" placeholder="example@mail.com">
+        <input type="text" id="v_line" placeholder="Line ID" style="margin-top:8px;">
         <label>預計登陸點（您的日常生活圈）</label>
         <select id="v_route" onchange="checkRoute(this.value)">
           <option value="" disabled selected>請選擇您的落點</option>
@@ -82,12 +76,8 @@
           <option value="竹北">竹北</option>
           <option value="其他">其他...</option>
         </select>
-
-        <div id="v_route_other_box">
-          <input type="text" id="v_route_other" placeholder="請填寫具體區域 (如: 湖口、竹南)">
-        </div>
-
-        <button class="primary-btn" style="width:100%; margin-top:30px;" onclick="goQuiz()">啟動頻率掃描</button>
+        <div id="v_route_other_box"><input type="text" id="v_route_other" placeholder="請填寫具體區域 (如: 湖口)"></div>
+        <button class="primary-btn" style="width:100%; margin-top:25px;" onclick="goQuiz()">啟動頻率掃描</button>
       </div>
 
       <div class="step" id="confirm-step">
@@ -110,8 +100,12 @@
             </p>
         </div>
         <div style="margin-top: 35px; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 25px;">
-            <p style="font-size: 1.05rem; color: var(--primary); font-weight: 500; margin-bottom: 12px; line-height: 1.4;">願這 TOM（趟）旅程，<br>能溫暖你在未來的每個日子。</p>
-            <p style="font-size: 0.9rem; color: #888; line-height: 1.8;">稍晚請留意那道共鳴，<br>我們在下一章正式相遇。</p>
+            <p style="font-size: 1rem; color: var(--primary); font-weight: 500; margin-bottom: 12px; line-height: 1.5;">
+                這趟 TOM 旅程很簡單 — <br>陪你在生活圈之外，慢慢遇見幾個聊得來的人。
+            </p>
+            <p style="font-size: 0.85rem; color: #888; line-height: 1.8;">
+                稍晚請留意那道共鳴，<br>我們在下一章正式相遇。
+            </p>
         </div>
       </div>
       <div id="loader">正在同步頻率數據...</div>
@@ -122,7 +116,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script>
     (function(){ emailjs.init("noTwUO_vvghFf6QuM"); })();
-
     const qs = [
       { t: "1. 忙碌一整天後，你如何恢復能量？", o: ["找朋友聚餐聊天", "獨自安靜休息", "去運動發洩", "沉浸在興趣愛好中"], s: [{S:2},{S:-2},{I:2},{I:-1}] },
       { t: "2. 面對未知的挑戰，你的第一反應是？", o: ["立即規劃步驟", "先觀察他人做法", "順應感覺走", "收集大量資訊分析"], s: [{L:2},{S:-1},{L:-2},{V:1}] },
@@ -135,52 +128,28 @@
       { t: "9. 決定買貴重物品時，你考量？", o: ["功能邏輯", "品牌地位", "當下感覺", "長期穩定"], s: [{V:2},{S:1},{L:-2},{L:2}] },
       { t: "10. 如果生命重來，你希望？", o: ["體驗更多不同人生", "修正過去遺憾", "維持現狀", "掌握更多影響"], s: [{I:2},{V:-1},{L:2},{V:2}] }
     ];
-
     let finalScores = { S:0, L:0, V:0, I:0 };
-
-    function checkRoute(val) {
-      document.getElementById('v_route_other_box').style.display = (val === '其他') ? 'block' : 'none';
-    }
-
+    function checkRoute(val) { document.getElementById('v_route_other_box').style.display = (val === '其他') ? 'block' : 'none'; }
     function goQuiz() {
-      const name = document.getElementById('v_name').value;
-      const eng = document.getElementById('v_eng').value;
-      const mail = document.getElementById('v_mail').value;
-      const line = document.getElementById('v_line').value;
-      const route = document.getElementById('v_route').value;
-      const otherRoute = document.getElementById('v_route_other').value;
-
-      if (!name || !eng || !mail || !line || !route) { alert("請完整填寫資訊，讓企鵝導遊為您對焦。"); return; }
-      if (route === '其他' && !otherRoute) { alert("請填寫您的具體區域。"); return; }
+      const ids = ['v_name','v_eng','v_mail','v_line','v_route','v_birth'];
+      for(let id of ids) if(!document.getElementById(id).value) { alert("請完整填寫資訊以開啟對焦。"); return; }
+      if (document.getElementById('v_route').value === '其他' && !document.getElementById('v_route_other').value) { alert("請填寫您的具體區域。"); return; }
       showConfirm();
     }
-
     function showConfirm() {
-      const routeVal = document.getElementById('v_route').value;
-      const finalRoute = (routeVal === '其他') ? document.getElementById('v_route_other').value : routeVal;
+      const rv = document.getElementById('v_route').value;
+      const fr = (rv === '其他') ? document.getElementById('v_route_other').value : rv;
       document.getElementById('confirm-detail').innerHTML = `
-        <b>中文名：</b>${document.getElementById('v_name').value}<br>
-        <b>英文名：</b>${document.getElementById('v_eng').value}<br>
-        <b>Email：</b>${document.getElementById('v_mail').value}<br>
-        <b>登陸點：</b>${finalRoute}<br>
+        <b>姓名：</b>${document.getElementById('v_name').value} (${document.getElementById('v_eng').value})<br>
+        <b>生日：</b>${document.getElementById('v_birth').value}<br>
+        <b>登陸點：</b>${fr}<br>
         <b>Line ID：</b>${document.getElementById('v_line').value}
       `;
       document.getElementById('step0').classList.remove('active');
       document.getElementById('confirm-step').classList.add('active');
     }
-
-    function backToEdit() {
-      document.getElementById('confirm-step').classList.remove('active');
-      document.getElementById('step0').classList.add('active');
-    }
-
-    function startQuiz() {
-      document.getElementById('confirm-step').classList.remove('active');
-      document.getElementById('p-box').style.display = 'block';
-      buildQuiz();
-      showStep(1);
-    }
-
+    function backToEdit() { document.getElementById('confirm-step').classList.remove('active'); document.getElementById('step0').classList.add('active'); }
+    function startQuiz() { document.getElementById('confirm-step').classList.remove('active'); document.getElementById('p-box').style.display = 'block'; buildQuiz(); showStep(1); }
     function buildQuiz() {
       const c = document.getElementById('quiz-container'); c.innerHTML = "";
       qs.forEach((q, i) => {
@@ -194,38 +163,23 @@
         c.appendChild(d);
       });
     }
-
-    function showStep(s) {
-      document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
-      const target = document.getElementById(`step${s}`);
-      if(target) target.classList.add('active');
-      document.getElementById('p-bar').style.width = `${(s/10)*100}%`;
-    }
-
+    function showStep(s) { document.querySelectorAll('.step').forEach(el => el.classList.remove('active')); const target = document.getElementById(`step${s}`); if(target) target.classList.add('active'); document.getElementById('p-bar').style.width = `${(s/10)*100}%`; }
     function next(el, sIdx, oIdx) {
       el.closest('.step').querySelectorAll('.opt').forEach(l => l.classList.remove('selected'));
       el.parentElement.classList.add('selected');
-      let o = qs[sIdx-1].s[oIdx];
-      for(let k in o) finalScores[k] += o[k];
-      if(sIdx < 10) setTimeout(() => showStep(sIdx+1), 400);
-      else submit();
+      let o = qs[sIdx-1].s[oIdx]; for(let k in o) finalScores[k] += o[k];
+      if(sIdx < 10) setTimeout(() => showStep(sIdx+1), 400); else submit();
     }
-
     function submit() {
-      document.getElementById('step10').classList.remove('active');
-      document.getElementById('p-box').style.display = 'none';
-      document.getElementById('loader').style.display = 'block';
+      document.getElementById('step10').classList.remove('active'); document.getElementById('p-box').style.display = 'none'; document.getElementById('loader').style.display = 'block';
       let codeStr = `TOM-${Math.random().toString(36).substr(2,4).toUpperCase()}`;
-      const routeVal = document.getElementById('v_route').value;
-      const finalRoute = (routeVal === '其他') ? document.getElementById('v_route_other').value : routeVal;
+      let typeStr = (finalScores.S > 0) ? (finalScores.L > 0 ? "穩定社交" : "自由探索") : (finalScores.L > 0 ? "安靜守護" : "獨立思考");
+      const rv = document.getElementById('v_route').value; const fr = (rv === '其他') ? document.getElementById('v_route_other').value : rv;
       let p = {
-        name: document.getElementById('v_name').value, 
-        eng: document.getElementById('v_eng').value,
-        mail: document.getElementById('v_mail').value,
-        line: document.getElementById('v_line').value,
-        route: finalRoute,
-        sex: document.getElementById('v_sex').value,
-        code: codeStr,
+        name: document.getElementById('v_name').value, eng: document.getElementById('v_eng').value,
+        birth: document.getElementById('v_birth').value, sex: document.getElementById('v_sex').value,
+        mail: document.getElementById('v_mail').value, line: document.getElementById('v_line').value,
+        route: fr, type: typeStr, code: codeStr,
         sc: `S:${finalScores.S} L:${finalScores.L} V:${finalScores.V} I:${finalScores.I}`,
         ts: new Date().toLocaleString('zh-TW')
       };
