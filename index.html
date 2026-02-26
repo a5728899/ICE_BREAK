@@ -34,7 +34,6 @@
     .step { display: none; width: 100%; animation: slideUp 0.6s ease-out; }
     .step.active { display: block; }
     @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(90, 118, 132, 0.3); } 70% { box-shadow: 0 0 0 10px rgba(90, 118, 132, 0); } 100% { box-shadow: 0 0 0 0 rgba(90, 118, 132, 0); } }
     .confirm-list { background: rgba(255, 255, 255, 0.5); padding: 22px; border-radius: 20px; line-height: 2.2; margin: 20px 0; font-size: 0.95rem; }
     .confirm-list b { color: var(--primary); margin-right: 12px; }
     .q-title { font-size: 1.25rem; color: var(--primary); margin-bottom: 25px; font-weight: 700; line-height: 1.6; }
@@ -42,9 +41,10 @@
     .opt:hover { background: #f8fafb; border-color: var(--primary-soft); }
     .opt.selected { background: var(--primary); color: white; }
     input[type="radio"] { display: none; }
-    .code-box { font-family: monospace; font-size: 1.7rem; border: 2px dashed var(--primary-soft); padding: 25px; margin: 20px 0; color: var(--primary); background: rgba(255,255,255,0.4); border-radius: 16px; font-weight: bold; text-align: center; animation: pulse 2s infinite ease-in-out; letter-spacing: 2px; }
+    .code-box { font-family: monospace; font-size: 1.7rem; border: 2px dashed var(--primary-soft); padding: 25px; margin: 20px 0; color: var(--primary); background: rgba(255,255,255,0.4); border-radius: 16px; font-weight: bold; text-align: center; letter-spacing: 2px; }
     #loader { display: none; text-align: center; color: var(--primary-soft); margin-top: 60px; font-style: italic; }
     footer { margin-top: 25px; color: var(--primary-soft); font-size: 0.7rem; letter-spacing: 1px; opacity: 0.7; line-height: 1.5; }
+    #v_route_other_box { display: none; animation: slideUp 0.4s ease-out; }
   </style>
 </head>
 <body>
@@ -56,13 +56,37 @@
       <div class="step active" id="step0">
         <h1>破冰之旅</h1>
         <div class="sub-title">尋頻相遇，破冰成友</div>
-        <label>中文名字</label><input type="text" id="v_name" placeholder="您的姓名">
-        <label>英文名字</label><input type="text" id="v_eng" placeholder="Jamie">
-        <label>電子郵件</label><input type="email" id="v_mail" placeholder="example@mail.com">
-        <label>生日</label><input type="date" id="v_birth">
+        
+        <label>中文名字</label>
+        <input type="text" id="v_name" placeholder="您的姓名">
+        
+        <label>英文名字</label>
+        <input type="text" id="v_eng" placeholder="Jamie">
+        
+        <label>電子郵件</label>
+        <input type="email" id="v_mail" placeholder="用於接收邀請函">
+        
         <label>性別</label>
-        <select id="v_sex"><option value="男">男</option><option value="女">女</option></select>
-        <label>Line ID</label><input type="text" id="v_line" placeholder="您的 Line ID">
+        <select id="v_sex">
+          <option value="男">男</option>
+          <option value="女">女</option>
+        </select>
+        
+        <label>Line ID</label>
+        <input type="text" id="v_line" placeholder="您的 Line ID">
+        
+        <label>預計登陸點（您的日常生活圈）</label>
+        <select id="v_route" onchange="checkRoute(this.value)">
+          <option value="" disabled selected>請選擇您的落點</option>
+          <option value="新竹">新竹</option>
+          <option value="竹北">竹北</option>
+          <option value="其他">其他...</option>
+        </select>
+
+        <div id="v_route_other_box">
+          <input type="text" id="v_route_other" placeholder="請填寫具體區域 (如: 湖口、竹南)">
+        </div>
+
         <button class="primary-btn" style="width:100%; margin-top:30px;" onclick="goQuiz()">啟動頻率掃描</button>
       </div>
 
@@ -80,29 +104,19 @@
       <div class="step" id="result-view" style="text-align:center;">
         <h2 style="color:var(--primary); letter-spacing: 3px;">❄️ 訊號偵測完成 ❄️</h2>
         <div class="code-box" id="v_code"></div>
-        
         <div style="margin: 25px auto; max-width: 90%; border-left: 2.5px solid var(--accent); padding-left: 18px; text-align: left;">
             <p style="font-size: 0.9rem; color: var(--primary); line-height: 1.8; margin: 0;">
-                「在新竹這座科技之城，連結不該只是訊號與資料，更可以是頻率與情感交換。為新竹量身打造這 TOM 破冰之旅，幫助你釋放自我頻率，尋找與你共振的人。」
+                「在新竹這座科技之城，連結不該只是訊號與資料，更可以是頻率與情感交換。透過這 TOM 破冰之旅，幫助你釋放自我頻率，尋找與你共振的人。」
             </p>
         </div>
-
         <div style="margin-top: 35px; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 25px;">
-            <p style="font-size: 1.05rem; color: var(--primary); font-weight: 500; margin-bottom: 12px; line-height: 1.4;">
-                願這 TOM（趟）旅程，<br>能溫暖你在未來的每個日子。
-            </p>
-            <p style="font-size: 0.9rem; color: #888; line-height: 1.8;">
-                稍晚請留意那道共鳴，<br>我們在下一章正式相遇。
-            </p>
+            <p style="font-size: 1.05rem; color: var(--primary); font-weight: 500; margin-bottom: 12px; line-height: 1.4;">願這 TOM（趟）旅程，<br>能溫暖你在未來的每個日子。</p>
+            <p style="font-size: 0.9rem; color: #888; line-height: 1.8;">稍晚請留意那道共鳴，<br>我們在下一章正式相遇。</p>
         </div>
       </div>
       <div id="loader">正在同步頻率數據...</div>
     </div>
-
-    <footer>
-        © 2026 TOM Project. All rights reserved.<br>
-        暖意開始，共鳴隨之。
-    </footer>
+    <footer>© 2026 TOM Project. All rights reserved.<br>暖意開始，共鳴隨之。</footer>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -124,26 +138,31 @@
 
     let finalScores = { S:0, L:0, V:0, I:0 };
 
+    function checkRoute(val) {
+      document.getElementById('v_route_other_box').style.display = (val === '其他') ? 'block' : 'none';
+    }
+
     function goQuiz() {
       const name = document.getElementById('v_name').value;
+      const eng = document.getElementById('v_eng').value;
       const mail = document.getElementById('v_mail').value;
-      const birthValue = document.getElementById('v_birth').value;
       const line = document.getElementById('v_line').value;
-      if (!name || !mail || !birthValue || !line) { alert("請完整填寫資訊以開啟掃描。"); return; }
-      const birthday = new Date(birthValue);
-      const today = new Date();
-      let age = today.getFullYear() - birthday.getFullYear();
-      const m = today.getMonth() - birthday.getMonth();
-      if (m < 0 || (m === 0 && today.getDate() < birthday.getDate())) age--;
-      if (age < 18) { alert("【系統提示】本測驗僅限年滿 18 歲參與。"); return; }
+      const route = document.getElementById('v_route').value;
+      const otherRoute = document.getElementById('v_route_other').value;
+
+      if (!name || !eng || !mail || !line || !route) { alert("請完整填寫資訊，讓企鵝導遊為您對焦。"); return; }
+      if (route === '其他' && !otherRoute) { alert("請填寫您的具體區域。"); return; }
       showConfirm();
     }
 
     function showConfirm() {
+      const routeVal = document.getElementById('v_route').value;
+      const finalRoute = (routeVal === '其他') ? document.getElementById('v_route_other').value : routeVal;
       document.getElementById('confirm-detail').innerHTML = `
-        <b>姓名：</b>${document.getElementById('v_name').value} (${document.getElementById('v_eng').value})<br>
+        <b>中文名：</b>${document.getElementById('v_name').value}<br>
+        <b>英文名：</b>${document.getElementById('v_eng').value}<br>
         <b>Email：</b>${document.getElementById('v_mail').value}<br>
-        <b>生日：</b>${document.getElementById('v_birth').value}<br>
+        <b>登陸點：</b>${finalRoute}<br>
         <b>Line ID：</b>${document.getElementById('v_line').value}
       `;
       document.getElementById('step0').classList.remove('active');
@@ -196,23 +215,20 @@
       document.getElementById('step10').classList.remove('active');
       document.getElementById('p-box').style.display = 'none';
       document.getElementById('loader').style.display = 'block';
-
-      let typeStr = (finalScores.S > 0) ? (finalScores.L > 0 ? "穩定社交" : "自由探索") : (finalScores.L > 0 ? "安靜守護" : "獨立思考");
-      let codeStr = `ICB-${Math.abs(finalScores.S)}${finalScores.L>=0?'P':'N'}-${Math.random().toString(36).substr(2,4).toUpperCase()}`;
-
+      let codeStr = `TOM-${Math.random().toString(36).substr(2,4).toUpperCase()}`;
+      const routeVal = document.getElementById('v_route').value;
+      const finalRoute = (routeVal === '其他') ? document.getElementById('v_route_other').value : routeVal;
       let p = {
         name: document.getElementById('v_name').value, 
         eng: document.getElementById('v_eng').value,
         mail: document.getElementById('v_mail').value,
-        birth: document.getElementById('v_birth').value,
-        sex: document.getElementById('v_sex').value, 
         line: document.getElementById('v_line').value,
-        type: typeStr, 
-        code: codeStr, 
+        route: finalRoute,
+        sex: document.getElementById('v_sex').value,
+        code: codeStr,
         sc: `S:${finalScores.S} L:${finalScores.L} V:${finalScores.V} I:${finalScores.I}`,
         ts: new Date().toLocaleString('zh-TW')
       };
-
       emailjs.send("service_oyhv1ot", "personality_result", p).then(() => {
         document.getElementById('loader').style.display = 'none';
         document.getElementById('result-view').classList.add('active');
@@ -222,3 +238,4 @@
   </script>
 </body>
 </html>
+
