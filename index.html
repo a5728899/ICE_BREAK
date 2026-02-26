@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TOM 破冰之旅 - 同頻人格測驗</title>
+  <title>來 TOM 破冰之旅</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -201,10 +201,15 @@
       let codeStr = `ICB-${Math.abs(finalScores.S)}${finalScores.L>=0?'P':'N'}-${Math.random().toString(36).substr(2,4).toUpperCase()}`;
 
       let p = {
-        name: document.getElementById('v_name').value, eng: document.getElementById('v_eng').value,
-        mail: document.getElementById('v_mail').value, birth: document.getElementById('v_birth').value,
-        sex: document.getElementById('v_sex').value, line: document.getElementById('v_line').value,
-        type: typeStr, code: codeStr, sc: `S:${finalScores.S} L:${finalScores.L} V:${finalScores.V} I:${finalScores.I}`,
+        name: document.getElementById('v_name').value, 
+        eng: document.getElementById('v_eng').value,
+        mail: document.getElementById('v_mail').value,
+        birth: document.getElementById('v_birth').value,
+        sex: document.getElementById('v_sex').value, 
+        line: document.getElementById('v_line').value,
+        type: typeStr, 
+        code: codeStr, 
+        sc: `S:${finalScores.S} L:${finalScores.L} V:${finalScores.V} I:${finalScores.I}`,
         ts: new Date().toLocaleString('zh-TW')
       };
 
